@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request
 import pandas as pd
 import json
@@ -11,13 +10,12 @@ import csv, re, operator
 app = Flask(__name__)
 
 person = {
-    'first_name': 'Nohossat',
-    'last_name' : 'TRAORE',
-    'address' : '9 rue Léon Giraud · PARIS · FRANCE',
-    'job': 'Web developer',
-    'tel': '0678282923',
-    'email': 'nohossat.tra@yahoo.com',
-    'description' : 'Suite à une expérience internationale en développement web et dans le domaine des arts, l’impact de l’intelligence artificielle dans nos vies me surprend de jour en jour. \n Aujourd’hui, je souhaite changer de cap et comprendre les secrets que recèlent nos données. J’aimerais mettre à profit ces découvertes au service des entreprises/associations à dimension sociale.',
+    'name':'彭佳诚',
+    'address' : '中国',
+    'job': '预备游戏设计师',
+    'tel': '199999999',
+    'email': 'JC@gmail.com',
+    'description' : '彭佳诚（JiaCheng Peng），2000年6月3日出生于中国大陆，中国男大学生。2018年，彭佳诚开始学习软件工程，他在中国某大学中学习3年。2021年，彭佳诚作为中国某大学学生代表参加了第N届知名毕业设计，暂未获得名次。2021年之后，计划将自己的天赋带到游戏编程，目前在一个人自学unity。预计2030年，彭佳诚与某绘画专业同学合作的3d开放大世界追逐交互ARPG游戏《*******》上映，这也是彭佳诚第一部游戏作品',
     'social_media' : [
         {
             'link': 'https://www.facebook.com/nono',
@@ -36,48 +34,45 @@ person = {
             'icon' : 'fa-twitter'
         }
     ],
-    'img': 'img/img_nono.jpg',
+    'img': 'img/img_statham.jpg',
     'experiences' : [
         {
-            'title' : 'Web Developer',
-            'company': 'AZULIK',
-            'description' : 'Project manager and lead developer for several AZULIK websites.',
-            'timeframe' : 'July 2018 - November 2019'
+            'Project' : '基于C语言的人力管理系统开发',
+            'teacher': '指导老师:陈**',
+            'timeframe' : '2019'
         },
         {
-            'title' : 'Freelance Web Developer',
-            'company': 'Independant',
-            'description' : 'Create Wordpress websites for small and medium companies. ',
-            'timeframe' : 'February 2017 - Present'
+            'Project' : '基于JavaWeb的商城购物功能设计',
+            'teacher': '指导老师:杨*',
+            'timeframe' : '2020'
         },
         {
-            'title' : 'Sharepoint Intern',
-            'company': 'ALTEN',
-            'description' : 'Help to manage a 600 Sharepoint sites platform (audit, migration to Sharepoint newer versions)',
-            'timeframe' : 'October 2015 - October 2016'
+            'Project' : 'Python数据分析',
+            'teacher': '指导老师:李**',
+            'timeframe' : '2020'
+        },
+        {
+            'Project' : '基于pygame的飞机大战小游戏设计与开发',
+            'teacher': '指导老师:李**',
+            'timeframe' : '2021'
         }
     ],
-    'education' : [
+    'educations' : [
         {
-            'university': 'Paris Diderot',
-            'degree': 'Projets informatiques et Startégies d\'entreprise (PISE)',
-            'description' : 'Gestion de projets IT, Audit, Programmation',
-            'mention' : 'Bien',
-            'timeframe' : '2015 - 2016'
+            'education': ' 小学 ',
+            'time': '2006-2012'
         },
         {
-            'university': 'Paris Dauphine',
-            'degree': 'Master en Management global',
-            'description' : 'Fonctions supports (Marketing, Finance, Ressources Humaines, Comptabilité)',
-            'mention' : 'Bien',
-            'timeframe' : '2015'
+            'education': '初中',
+            'time': '2012-2015'
         },
         {
-            'university': 'Lycée Turgot - Paris Sorbonne',
-            'degree': 'CPGE Economie & Gestion',
-            'description' : 'Préparation au concours de l\'ENS Cachan, section Economie',
-            'mention' : 'N/A',
-            'timeframe' : '2010 - 2012'
+            'education': '高中 ',
+            'time': '2015-2018'
+        },
+        {
+            'education': '大学 ',
+            'time': '2021-现在'
         }
     ],
     'programming_languages' : {
@@ -97,7 +92,7 @@ person = {
 
 @app.route('/')
 def cv(person=person):
-    return render_template('index.html', person=person)
+    return render_template('index2.html', person=person)
 
 
 
