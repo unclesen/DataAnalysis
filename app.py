@@ -92,7 +92,7 @@ person = {
 
 @app.route('/')
 def cv(person=person):
-    return render_template('index2.html', person=person)
+    return render_template('index.html', person=person)
 
 
 
@@ -103,15 +103,119 @@ def cb():
    
 @app.route('/chart')
 def index():
-	return render_template('chartsajax.html',  graphJSON=gm())
+	return render_template('chartsajax.html',  graphJSON=gm(),graphJSON2=gm1_2(),graphJSON3=gm1_3(),graphJSON4=gm1_4(),graphJSON5=gm1_5())
 
-def gm(country='United Kingdom'):
-	df = pd.DataFrame(px.data.gapminder())
+@app.route('/chart2')
+def index2():
+    return render_template('chart2.html',  graphJSON=gm2_1(),graphJSON2=gm2_2(),graphJSON3=gm2_3(),graphJSON4=gm2_4(),graphJSON5=gm2_5())
 
-	fig = px.line(df[df['country']==country], x="year", y="gdpPercap")
+def gm(Country='Italy'):
+	df = pd.read_csv('./GREEN500.csv')
+
+	fig = px.line(df[df['Country']==Country], x="Year", y="Total Cores")
 
 	graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 	return graphJSON
+
+def gm1_2():
+    df = pd.read_csv('./GREEN500.csv')
+
+    fig2 = px.scatter(df, x="TOP500 Rank", y="Rmax [TFlop/s]", color="Country", 
+           marginal_y="rug", marginal_x="histogram")
+
+    graphJSON2 = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON2
+
+def gm1_3():
+    df = pd.read_csv('./GREEN500.csv')
+
+    fig3 = px.bar(df, x="Power Quality Level", y="Power Efficiency [GFlops/Watts]", color="Manufacturer")
+
+    graphJSON3 = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON3
+
+def gm1_4():
+    df = pd.read_csv('./GREEN500.csv')
+
+    fig4 = px.area(df, x="TOP500 Rank", y="Rpeak [TFlop/s]", color="Continent")
+
+    graphJSON4 = json.dumps(fig4, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON4
+
+def gm1_5():
+    df = pd.read_csv('./GREEN500.csv')
+
+    fig5 = px.strip(df, x="TOP500 Rank", y="Rpeak [TFlop/s]", orientation="h", color="Operating System")
+
+    graphJSON5 = json.dumps(fig5, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON5
+
+def gm2_1():
+    df = pd.read_csv('./water_potability.csv')
+
+    # fig = px.scatter(df,x="ph", y="Potability")
+    # fig = px.line(df,x="ph", y="Potability")
+    fig = px.histogram(df,x="ph", y="Turbidity" , color="Potability")
+
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    # graphJSON2 = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
+
+def gm2_2():
+    df = pd.read_csv('./water_potability.csv')
+
+    # fig = px.scatter(df,x="ph", y="Potability")
+    # fig = px.line(df,x="ph", y="Potability")
+    # fig = px.histogram(df,x="ph", y="Turbidity" , color="Potability")
+    fig2 = px.histogram(df,x="Sulfate", y="Conductivity" , color="Potability")
+
+    # graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    graphJSON2 = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON2
+    fig = px.pie(fruit,names="name",values="number")
+
+def gm2_3():
+    df = pd.read_csv('./water_potability.csv')
+
+    fruit = pd.DataFrame({
+        "name":["100-150","150-200","200-250","250-300","300-999"],
+        "number":[
+        len(df[(df['Hardness']>=100) & (df['Hardness']<150)]), \
+        len(df[(df['Hardness']>=150) & (df['Hardness']<200)]), \
+        len(df[(df['Hardness']>=200) & (df['Hardness']<250)]), \
+        len(df[(df['Hardness']>=250) & (df['Hardness']<300)]), \
+        len(df[(df['Hardness']>=300)])
+        ]})
+
+    fig3 = px.pie(fruit,names="name",values="number")
+
+    graphJSON3 = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON3
+
+def gm2_4():
+    df = pd.read_csv('./water_potability.csv')
+
+    fruit = pd.DataFrame({
+        "name":["0-250","250-290","290-330","330-999"],
+        "number":[
+        len(df[(df['Sulfate']>= 0 ) & (df['Sulfate']<250)]), \
+        len(df[(df['Sulfate']>=250) & (df['Sulfate']<290)]), \
+        len(df[(df['Sulfate']>=290) & (df['Sulfate']<330)]), \
+        len(df[(df['Sulfate']>=330) & (df['Sulfate']<999)])
+        ]})
+
+    fig4 = px.pie(fruit,names="name",values="number")
+
+    graphJSON4 = json.dumps(fig4, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON4
+
+def gm2_5():
+    df = pd.read_csv('./water_potability.csv')
+
+    fig5 = px.scatter(df,x="Solids",y="Chloramines")
+
+    graphJSON5 = json.dumps(fig5, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON5
 
 
 @app.route('/senti')

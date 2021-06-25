@@ -1,145 +1,139 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-  <link href="/static/css/orbit-7.css" rel="stylesheet" type="text/css"/>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <script type="text/javascript" src="/static/js/a.js"></script>
-</head>
+    <title>{{ person.first_name }} - CV</title>
+    
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,400italic,300italic,300,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <!-- FontAwesome JS-->
+	<script defer src="{{ url_for('static', filename='vendor/fontawesome/all.min.js') }}"></script>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">   
+    <!-- Theme CSS -->  
+    <link id="theme-style" rel="stylesheet" href="{{ url_for('static', filename='css/orbit-4.css') }}">
+    
+</head> 
+
 <body>
-  <div class="resume">
-  <div class="base">
-    <div class="profile">
-      <div class="photo">
-        <!--<img src="" /> -->
-        <i class="fas fa-rocket"></i>
-      </div>
-      <div class="info">
-        <h1 class="name">{{person.name}}</h1>
-        <h2 class="job">{{person.job}}</h2>
-        <h2 class="address">{{person.address}}</h2>
-      </div>
+    <div class="wrapper">
+        <div class="main-wrapper">
+            
+            <section class="section summary-section">
+                <h2 class="section-title"><span class="icon-holder"><i class="fas fa-user"></i></span>Career Profile</h2>
+                <div class="summary">
+                    <p> {{ person.description }}</p>
+                </div><!--//summary-->
+            </section><!--//section-->
+            
+            <section class="section experiences-section">
+                <h2 class="section-title"><span class="icon-holder"><i class="fas fa-briefcase"></i></span>Experiences</h2>
+                
+                {% for experience in person.experiences %}
+                <div class="item">
+                    <div class="meta">
+                        <div class="upper-row">
+                            <h3 class="job-title">{{ experience.title }}</h3>
+                            <div class="time">{{ experience.timeframe }}</div>
+                        </div><!--//upper-row-->
+                        <div class="company">{{ experience.company }}</div>
+                    </div><!--//meta-->
+                    <div class="details">
+                        <p>{{ experience.description }}</p>  
+                    </div><!--//details-->
+                </div><!--//item-->
+                {% endfor %}
+                
+            </section><!--//section-->
+            
+            <section class="section education-section">
+                <h2 class="section-title"><span class="icon-holder"><i class="fas fa-university"></i></span>Education</h2>
+
+                {% for diploma in person.education %}
+                <div class="item">
+                    <div class="meta">
+                        <div class="upper-row">
+                            <h3 class="job-title">{{ diploma.degree }}</h3>
+                            <div class="time">{{ diploma.timeframe }}</div>
+                        </div><!--//upper-row-->
+                        <div class="company">{{ diploma.university }}</div>
+                    </div><!--//meta-->
+                    <div class="details">
+                        <p>{{ diploma.description }}</p>
+                    </div><!--//details-->
+                </div><!--//item-->
+                {% endfor %}
+            </section><!--//section-->
+            
+            <section class="skills-section section">
+                <h2 class="section-title"><span class="icon-holder"><i class="fas fa-rocket"></i></span>Skills &amp; Proficiency</h2>
+                <div class="skillset">  
+                    {% for lang, details in person.programming_languages.items() %}
+                    <div class="item">
+                        <h3 class="level-title"> {{ lang }}</h3>
+                        <div class="progress level-bar">
+						    <div class="progress-bar theme-progress-bar" role="progressbar" style="width:{{ details[1] }}%" aria-valuenow=" {{ details[1] }}" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>                               
+                    </div><!--//item-->
+                    {% endfor %}
+                </div>  
+            </section><!--//skills-section-->
+            
+        
+        
+        </div><!--//main-body-->
+
+        <div class="sidebar-wrapper">
+            <div class="profile-container">
+                <img class="profile" src="{{ url_for('static', filename='img/img_nono.jpg') }}" alt="" />
+                <h1 class="name">{{ person.first_name }} {{ person.last_name }}</h1>
+                <h3 class="tagline">{{ person.job }}</h3>
+            </div><!--//profile-container-->
+            
+            <div class="contact-container container-block">
+                <ul class="list-unstyled contact-list">
+                    <li class="email"><i class="fas fa-envelope"></i><a href="mailto: {{ person.email }}">{{ person.email }}</a></li>
+                    <li class="phone"><i class="fas fa-phone"></i><a href="tel:{{ person.tel }}">{{ person.tel }}</a></li>
+                    <li class="linkedin"><i class="fab {{ person.social_media[2].icon }}"></i><a href="{{ person.social_media[2].link }}" target="_blank">{{ person.social_media[2].link }}</a></li>
+                    <li class="github"><i class="fab {{ person.social_media[1].icon }}"></i><a href="{{ person.social_media[1].link }}" target="_blank">{{ person.social_media[1].link }}</a></li>
+                    <li class="twitter"><i class="fab {{ person.social_media[3].icon }}"></i><a href="{{ person.social_media[3].link }}" target="_blank">@{{ person.first_name }}</a></li>
+                </ul>
+            </div><!--//contact-container-->
+            <div class="education-container container-block" style='display: none;'>
+                <h2 class="container-block-title">Education</h2>
+                {% for diploma in person.education %}
+                <div class="item">
+                    <h4 class="degree">{{ diploma.degree }}</h4>
+                    <h5 class="meta">{{ diploma.university }}</h5>
+	                    <div class="time">{{ diploma.timeframe }}</div>
+                </div><!--//item-->
+                {% endfor %}
+            </div><!--//education-container-->
+            
+            <div class="languages-container container-block">
+                <h2 class="container-block-title">Languages</h2>
+                <ul class="list-unstyled interests-list">
+                    {% for lang, level in person.languages.items() %}
+                        <li>{{ lang }} <span class="lang-desc">({{ level }})</span></li>
+                    {% endfor %}
+                </ul>
+            </div><!--//interests-->
+            
+            <div class="interests-container container-block">
+                <h2 class="container-block-title">Interests</h2>
+                <ul class="list-unstyled interests-list">
+                    {% for interest in person.interests %}
+                        <li> {{ interest }}</li>
+                    {% endfor %}
+                </ul>
+            </div><!--//interests-->
+            
+        </div><!--//sidebar-wrapper-->
+        
     </div>
-    <div class="about">
-      <h3>基本介绍</h3>{{person.description}}
-    </div>
-    <div class="contact">
-      <h3>联系方式</h3>
-      <div class="call"><a href="tel:123-456-7890"><i class="fas fa-phone"></i><span>{{person.tel}}</span></a></div>
-      <div class="address"><a href="https://goo.gl/maps/fiTBGT6Vnhy"><i class="fas fa-map-marker"></i><span>{{person.address}}</span></a>
-      </div>
-      <div class="email"><a href="mailto:astronaomical@gmail.com"><i class="fas fa-envelope"></i><span>邮箱</span></a></div>
-      <div class="website"><a href=https://baike.baidu.com/item/%E6%9D%B0%E6%A3%AE%C2%B7%E6%96%AF%E5%9D%A6%E6%A3%AE/10970382?fr=aladdin target="_blank"> <i class="fas fa-home"></i><span>百度百科</span></a></div>
-    </div>
-    <div class="follow">
-      <h3>关注我</h3>
-      <div class="box">
-        <a href="https://www.facebook.com/astronaomical/" target="_blank"><i class="fab fa-facebook"></i></a>
-        <a href="https://www.instagram.com/astronaomical/" target="_blank"><i class="fab fa-instagram "></i></a>
-        <a href="https://www.pinterest.com/astronaomical/" target="_blank"><i class="fab fa-pinterest"></i></a>
-        <a href="https://www.linkedin.com/in/naomi-weatherford-758385112/" target="_blank"><i class="fab fa-linkedin"></i></a>
-        <a href="https://codepen.io/astronaomical/" target="_blank"><i class="fab fa-codepen"></i></a>
-        <a href="https://www.behance.net/astronaomical" target="_blank"><i class="fab fa-behance"></i></a>
-      </div>
-    </div>
-  </div>
-  <div class="func">
-    <div class="work">
-      <h3><i class="fa fa-briefcase"></i>经历</h3>
-      <ul>
-        {% for experience in person.experiences %}
-        <li><span> {{ experience.Project }} </span><small>{{ experience.teacher }}</small><small>{{ experience.timeframe }}</small></li>
-        {% endfor %}
-      </ul>
-    </div>
-    <div class="edu">
-      <h3><i class="fa fa-graduation-cap"></i>教育经历</h3>
-      <ul>
-        {% for educations in person.educations %}
-        <li><span>{{ educations.education }}</span><small>{{ educations.time }}</small></li>
-        {% endfor %}
-      </ul>
-    </div>
-    <div class="skills-prog">
-      <h3><i class="fas fa-code"></i>职业技能</h3>
-      <ul>
-        <li data-percent="95"><span>C语言</span>
-          <div class="skills-bar">
-            <div class="bar" style="width: 80%; transition-duration: 0.5s;"></div>
-          </div>
-        </li>
-        <li data-percent="90"><span>C++</span>
-          <div class="skills-bar">
-            <div class="bar" style="width: 50%; transition-duration: 0.5s;"></div>
-          </div>
-        </li>
-        <li data-percent="60"><span>Python</span>
-          <div class="skills-bar">
-            <div class="bar" style="width: 70%; transition-duration: 0.5s;"></div>
-          </div>
-        </li>
-        <li data-percent="50"><span>Java</span>
-          <div class="skills-bar">
-            <div class="bar" style="width: 30%; transition-duration: 0.5s;"></div>
-          </div>
-        </li>
-        <li data-percent="40"><span>JavaScript</span>
-          <div class="skills-bar">
-            <div class="bar" style="width: 10%; transition-duration: 0.5s;"></div>
-          </div>
-        </li>
-        <li data-percent="55"><span>C#</span>
-          <div class="skills-bar">
-            <div class="bar" style="width: 5%; transition-duration: 0.5s;"></div>
-          </div>
-        </li>
-        <li data-percent="40"><span>unity3d</span>
-          <div class="skills-bar">
-            <div class="bar" style="width: 3%; transition-duration: 0.5s;"></div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="skills-soft">
-      <h3><i class="fas fa-bezier-curve"></i>软件能力</h3>
-      <ul>
-        <li data-percent="90">
-          <svg viewbox="0 0 100 100">
-            <circle cx="50" cy="50" r="45"></circle>
-            <circle class="cbar" cx="50" cy="50" r="45"></circle>
-          </svg><span>office全套</span><small></small>
-        </li>
-        <li data-percent="75">
-          <svg viewbox="0 0 100 100">
-            <circle cx="50" cy="50" r="45"></circle>
-            <circle class="cbar" cx="50" cy="50" r="45"></circle>
-          </svg><span>Windows画图</span><small></small>
-        </li>
-        <li data-percent="85">
-          <svg viewbox="0 0 100 100">
-            <circle cx="50" cy="50" r="45"></circle>
-            <circle class="cbar" cx="50" cy="50" r="45"></circle>
-          </svg><span>steam</span><small></small>
-        </li>
-        <li data-percent="65">
-          <svg viewbox="0 0 100 100">
-            <circle cx="50" cy="50" r="45"></circle>
-            <circle class="cbar" cx="50" cy="50" r="45"></circle>
-          </svg><span>WeGame</span><small></small>
-        </li>
-      </ul>
-    </div>
-    <div class="interests">
-      <h3><i class="fas fa-star"></i>爱好</h3>
-      <div class="interests-items">
-        <div class="art"><i class="fas fa-palette"></i><span>艺术</span></div>
-        <div class="art"><i class="fas fa-book"></i><span>书籍</span></div>
-        <div class="movies"><i class="fas fa-film"></i><span>电影</span></div>
-        <div class="music"><i class="fas fa-headphones"></i><span>音乐</span></div>
-        <div class="games"><i class="fas fa-gamepad"></i><span>游戏</span></div>
-      </div>
-    </div>
-  </div>
-</div>
 </body>
-</html>
+</html> 
+

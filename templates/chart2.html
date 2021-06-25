@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body style="font-family:arial, sans-serif">
+    <h1>影响饮水质量的因素分析</h1>
+    <h2>ph值、水的浑浊度与水的可饮用性(potability)分析</h2>
+    <div id="chart2_1" class="chart2_1"></div>
+    <h2>盐酸含量和导电性的线性关系分析</h2>
+    <div id="chart2_2" class="chart2_2"></div>
+    <h2>水的硬度检测</h2>
+    <div id="chart2_3" class="chart2_3"></div>
+    <h2>水的氯化铵含量检测</h2>
+    <div id="chart2_4" class="chart2_4"></div>
+    <h2>液体总量和氯化铵的散点图关系</h2>
+    <div id="chart2_5" class="chart2_5"></div>
+</body>
+
+<script>
+    d = {{ graphJSON | safe }};
+    d2 = {{ graphJSON2 | safe }};
+    d3 = {{ graphJSON3 | safe }};
+    d4 = {{ graphJSON4 | safe }};
+    d5 = {{ graphJSON5 | safe }};
+    Plotly.newPlot('chart2_1', d, {});
+    Plotly.newPlot('chart2_2', d2, {});
+    Plotly.newPlot('chart2_3', d3, {});
+    Plotly.newPlot('chart2_4', d4, {});
+    Plotly.newPlot('chart2_5', d5, {});
+</script>
+
+
+</html>
