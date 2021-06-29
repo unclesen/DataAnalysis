@@ -110,12 +110,12 @@ def index2():
     return render_template('chart2.html',  graphJSON=gm2_1(),graphJSON2=gm2_2(),graphJSON3=gm2_3(),graphJSON4=gm2_4(),graphJSON5=gm2_5())
 
 def gm(Country='Italy'):
-	df = pd.read_csv('./GREEN500.csv')
+    df = pd.read_csv('./GREEN500.csv')
 
-	fig = px.line(df[df['Country']==Country], x="Year", y="Total Cores")
+    fig = px.line(df[df['Country']==Country], x="Year", y="Total Cores",color="Manufacturer")
 
-	graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-	return graphJSON
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
 
 def gm1_2():
     df = pd.read_csv('./GREEN500.csv')
